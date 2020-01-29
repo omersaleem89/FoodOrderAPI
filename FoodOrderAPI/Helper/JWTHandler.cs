@@ -22,15 +22,15 @@ namespace FoodOrderAPI
 
             var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
-                new Claim("Role", userInfo.Role),
+                new Claim(ClaimTypes.Role, userInfo.Role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-              _config["Jwt:Issuer"],
-              null,
-              expires: DateTime.Now.AddMinutes(120),
-              signingCredentials: credentials);
+                  _config["Jwt:Issuer"],
+                  claims,
+                  expires: DateTime.Now.AddMinutes(120),
+                  signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
