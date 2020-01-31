@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FoodOrderAPI.Models;
 using FoodOrderAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,38 +18,41 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ApplicationDBContext _db;
-        public CategoryController(ApplicationDBContext db)
+        private readonly IWebHostEnvironment _hostEnvironment;
+        public CategoryController(ApplicationDBContext db, IWebHostEnvironment hostEnvironment)
         {
             _db = db;
+            _hostEnvironment = hostEnvironment;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-           return new JsonResult(new CategoryViewModel(_db).GetAll());
+           return new JsonResult(new CategoryViewModel(_db,_hostEnvironment).GetAll());
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return new JsonResult(new CategoryViewModel(_db).Get(id));
+            return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Get(id));
         }
 
         [HttpPost]
-        public IActionResult Insert([FromForm] Category category)
+        public IActionResult Insert([FromForm] string name, IFormFile imageFile, IFormFile imageFileThumb)
         {
-            return new JsonResult(new CategoryViewModel(_db).Insert(category));
+            return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Insert(name,imageFile,imageFileThumb));
         }
+        
         [HttpPut]
-        public IActionResult Update([FromForm] Category category)
+        public IActionResult Update([FromForm] CategoryUpsert categoryUpsert)
         {
-            return new JsonResult(new CategoryViewModel(_db).Update(category));
+            return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Update(categoryUpsert));
         }
 
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            return new JsonResult(new CategoryViewModel(_db).Delete(id));
+            return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Delete(id));
         }
     }
 }

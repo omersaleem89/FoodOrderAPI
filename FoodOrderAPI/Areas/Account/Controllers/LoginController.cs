@@ -24,12 +24,12 @@ namespace FoodOrderAPI.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("LoginUser")]
+        [HttpPost]
         public IActionResult LoginUser([FromForm]LoginVM login)
         {
             if (ModelState.IsValid)
             {
-                IActionResult response = Unauthorized();
+                IActionResult response = new JsonResult("") ;
                 var user = new LoginViewModel(_db).AuthenticateUser(login);
 
                 if (user != null)

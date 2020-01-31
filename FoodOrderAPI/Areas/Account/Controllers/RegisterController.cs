@@ -16,7 +16,7 @@ namespace FoodOrderAPI.Areas.Account.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("RegisterUser")]
+        [HttpPost]
         public IActionResult RegisterUser([FromForm]User user) {
             if (ModelState.IsValid)
             {

@@ -18,8 +18,8 @@ namespace FoodOrderAPI.Models.ViewModels
         {
             try
             {
-                var temp= _db.User.FirstOrDefault(x => x.Email == user.Email);
-                if (temp == null)
+                var check= _db.User.FirstOrDefault(x => x.Email == user.Email);
+                if (check == null)
                 {
                     _db.User.Add(user);
                     _db.SaveChanges();
