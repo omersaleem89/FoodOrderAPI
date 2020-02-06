@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using FoodOrderAPI.Models;
-using FoodOrderAPI.Models.ViewModels;
-using Microsoft.AspNetCore.Authorization;
+﻿using FoodOrderAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodOrderAPI.Areas.Admin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = SD.Admin)]
     public class CategoryController : ControllerBase
     {
         private readonly ApplicationDBContext _db;
@@ -38,9 +30,9 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert([FromForm] string name, IFormFile imageFile, IFormFile imageFileThumb)
+        public IActionResult Insert([FromForm] CategoryUpsert categoryUpsert)
         {
-            return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Insert(name,imageFile,imageFileThumb));
+            return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Insert(categoryUpsert));
         }
         
         [HttpPut]
