@@ -40,7 +40,18 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Post([FromForm] FoodItemUpsert foodItem)
         {
-            return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).Insert(foodItem));
+            if (ModelState.IsValid)
+            {
+                return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).Insert(foodItem));
+            }
+            else
+            {
+                return new JsonResult(new DbResponse()
+                {
+                    Result = false,
+                    ExceptionMessage = "All fields required"
+                });
+            }
         }
 
         // PUT: api/FoodItem/5
@@ -62,8 +73,9 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
 
         // DELETE: api/FoodItem/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).Delete(id));
         }
     }
 }

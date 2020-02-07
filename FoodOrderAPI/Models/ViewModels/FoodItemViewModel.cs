@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -99,18 +100,23 @@ namespace FoodOrderAPI.Models.ViewModels
                 var foodItem = _db.FoodItem.FirstOrDefault(x => x.Id == id);
                 if (foodItem != null)
                 {
-                    if (!String.IsNullOrEmpty(foodItemUpsert.Name))
-                        foodItemUpsert.Name = foodItemUpsert.Name;
-                    if (!(categoryUpsert.imageFile == null
-                           || categoryUpsert.imageFileThumb == null))
+                    foodItem.Name = foodItemUpsert.Name;
+                    foodItem.Price = foodItemUpsert.Price;
+                    foodItem.Description = foodItemUpsert.Description;
+                    foodItem.Quantity = foodItemUpsert.Quantity;
+                    foodItem.IsDeleted = foodItemUpsert.IsDeleted;
+                    foodItem.IsEnabled = foodItemUpsert.IsEnabled;
+
+                    if (!(foodItemUpsert.Image == null
+                           || foodItemUpsert.ImageThumb == null))
                     {
-                        var ext1 = Path.GetExtension(categoryUpsert.imageFile.FileName);
-                        var ext2 = Path.GetExtension(categoryUpsert.imageFileThumb.FileName);
+                        var ext1 = Path.GetExtension(foodItemUpsert.Image.FileName);
+                        var ext2 = Path.GetExtension(foodItemUpsert.ImageThumb.FileName);
                         if (permittedExtensions.Contains(ext1)
                            && permittedExtensions.Contains(ext2))
                         {
-                            if (!(ImageHelper.DeleteImage(_hostEnvironment, @"images", category.Image.Replace("/images/", "")))
-                            || !(ImageHelper.DeleteImage(_hostEnvironment, @"images\thumb", category.ImageThumb.Replace("/images/thumb/", ""))))
+                            if (!(ImageHelper.DeleteImage(_hostEnvironment, @"images", foodItem.Image.Replace("/images/", "")))
+                            || !(ImageHelper.DeleteImage(_hostEnvironment, @"images\thumb", foodItem.ImageThumb.Replace("/images/thumb/", ""))))
                             {
                                 return new DbResponse()
                                 {
@@ -118,8 +124,8 @@ namespace FoodOrderAPI.Models.ViewModels
                                     ExceptionMessage = "File does not Exists"
                                 };
                             }
-                            category.Image = ImageHelper.UploadImageFile("wwwroot/images", categoryUpsert.imageFile);
-                            category.ImageThumb = ImageHelper.UploadImageFile("wwwroot/images/thumb", categoryUpsert.imageFileThumb);
+                            foodItem.Image = ImageHelper.UploadImageFile("wwwroot/images", foodItemUpsert.Image);
+                            foodItem.ImageThumb = ImageHelper.UploadImageFile("wwwroot/images/thumb", foodItemUpsert.ImageThumb);
                         }
 
                     }
@@ -128,7 +134,7 @@ namespace FoodOrderAPI.Models.ViewModels
                     return new DbResponse()
                     {
                         Result = true,
-                        ExceptionMessage = "Category Updated"
+                        ExceptionMessage = "FoodItem Updated"
                     };
 
                 }
@@ -137,7 +143,7 @@ namespace FoodOrderAPI.Models.ViewModels
                     return new DbResponse()
                     {
                         Result = false,
-                        ExceptionMessage = "Category does not Exists"
+                        ExceptionMessage = "FoodItem does not Exists"
                     };
                 }
             }
@@ -156,15 +162,15 @@ namespace FoodOrderAPI.Models.ViewModels
         {
             try
             {
-                var category = _db.Category.FirstOrDefault(x => x.Id == id);
-                if (category != null)
+                var foodItem = _db.FoodItem.FirstOrDefault(x => x.Id == id);
+                if (foodItem != null)
                 {
-                    if (category.Image != null || category.Image != "" ||
-                        category.ImageThumb != null || category.ImageThumb != ""
+                    if (foodItem.Image != null || foodItem.Image != "" ||
+                        foodItem.ImageThumb != null || foodItem.ImageThumb != ""
                         )
                     {
-                        if (!(ImageHelper.DeleteImage(_hostEnvironment, @"images", category.Image.Replace("/images/", "")))
-                            || !(ImageHelper.DeleteImage(_hostEnvironment, @"images\thumb", category.ImageThumb.Replace("/images/thumb/", ""))))
+                        if (!(ImageHelper.DeleteImage(_hostEnvironment, @"images", foodItem.Image.Replace("/images/", "")))
+                            || !(ImageHelper.DeleteImage(_hostEnvironment, @"images\thumb", foodItem.ImageThumb.Replace("/images/thumb/", ""))))
                         {
                             return new DbResponse()
                             {
@@ -174,12 +180,12 @@ namespace FoodOrderAPI.Models.ViewModels
                         }
 
                     }
-                    _db.Entry(category).State = EntityState.Deleted;
+                    _db.Entry(foodItem).State = EntityState.Deleted;
                     _db.SaveChanges();
                     return new DbResponse()
                     {
                         Result = true,
-                        ExceptionMessage = "Category Deleted"
+                        ExceptionMessage = "FoodItem Deleted"
                     };
                 }
                 else
@@ -187,7 +193,7 @@ namespace FoodOrderAPI.Models.ViewModels
                     return new DbResponse()
                     {
                         Result = false,
-                        ExceptionMessage = "Category does not Exists"
+                        ExceptionMessage = "FoodItem does not Exists"
                     };
                 }
             }
@@ -204,11 +210,15 @@ namespace FoodOrderAPI.Models.ViewModels
 
     public class FoodItemUpsert
     {
+        [Required]
         public string Name { get; set; }
         public IFormFile Image { get; set; }
         public IFormFile ImageThumb { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value greater than {1}")]
         public int Price { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value greater than {1}")]
         public int Quantity { get; set; }
         public bool IsEnabled { get; set; }
         public bool IsDeleted { get; set; }
