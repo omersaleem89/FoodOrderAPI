@@ -118,16 +118,15 @@ namespace FoodOrderAPI.Models.ViewModels
 
     public class OrderUpsert
     {
-        [Required]
+        //[Required]
         public DateTime CreationDate { get; set; }
-        [Required]
+        //[Required]
         public bool Status { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value greater than {1}")]
         public int TotalPrice { get; set; }
         public string TransId { get; set; }
         [Required]
         public int UserId { get; set; }
-        [Required]
         public List<OrderDetail> OrderDetails { get; set; }
     }
 }

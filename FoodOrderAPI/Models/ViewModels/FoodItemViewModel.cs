@@ -33,6 +33,12 @@ namespace FoodOrderAPI.Models.ViewModels
             return res;
         }
 
+        public IEnumerable<FoodItem> GetCategoryItems(int id)
+        {
+            var res = _db.FoodItem.Where(x => x.CategoryId == id);
+            return res;
+        }
+
         public DbResponse Insert(FoodItemUpsert foodItem)
         {
             string[] permittedExtensions = { ".jpg", ".jpeg", ".png", ".gif" };

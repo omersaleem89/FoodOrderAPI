@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FoodOrderAPI.Models.ViewModels;
-using Microsoft.AspNetCore.Http;
+﻿using FoodOrderAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodOrderAPI.Areas.Admin.Controllers

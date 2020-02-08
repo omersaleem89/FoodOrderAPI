@@ -36,6 +36,13 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
             return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).Get(id));
         }
 
+        // GET: api/FoodItem/5
+        [HttpGet("{id}", Name = "GetCategoryItems")]
+        public IActionResult GetCategoryItems(int id)
+        {
+            return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).GetCategoryItems(id));
+        }
+
         // POST: api/FoodItem
         [HttpPost]
         public IActionResult Post([FromForm] FoodItemUpsert foodItem)
