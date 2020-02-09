@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FoodOrderAPI.Helper;
-using FoodOrderAPI.Models.ViewModels;
-using Microsoft.AspNetCore.Authentication;
+﻿using FoodOrderAPI.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,16 +21,32 @@ namespace FoodOrderAPI.Areas.Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-                return new JsonResult(new CartViewModel(_session,_db).AddToCart(orderDetail));
+                return Ok(new CartViewModel(_session,_db).AddToCart(orderDetail));
             }
-            else {
-                return new JsonResult(false);
-            }
+            return NotFound(false);
         }
+
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateQuantity(int id, [FromForm] int quantity)
+        {
+            if(new CartViewModel(_session, _db).UpdateQuantity(id, quantity))
+                return Ok();
+            return NotFound();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            if (new CartViewModel(_session, _db).Delete(id))
+                return Ok();
+            return NotFound();
+        }
+
         [HttpGet]
         public IActionResult GetAllCartItems()
         {
-            return new JsonResult(new CartViewModel(_session,_db).GetAllCartItems());
+            return Ok(new CartViewModel(_session,_db).GetAllCartItems());
         }
     }
 }

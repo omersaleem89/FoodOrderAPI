@@ -33,6 +33,15 @@ namespace FoodOrderAPI.Models.ViewModels
                     sessionList.Add(orderDetail);
                     _session.SetObject(SD.SessionCart, sessionList);
                 }
+                else
+                {
+                    var orderDetailObj =
+                        sessionList.FirstOrDefault(x => x.FoodItemId == orderDetail.FoodItemId);
+                    sessionList.Remove(orderDetailObj);
+                    orderDetailObj.Quantity += orderDetail.Quantity;
+                    sessionList.Add(orderDetailObj);
+                    _session.SetObject(SD.SessionCart, sessionList);
+                }
             }
             return new DbResponse()
             {
@@ -49,6 +58,36 @@ namespace FoodOrderAPI.Models.ViewModels
                 sessionList = _session.GetObject<List<OrderDetailVM>>(SD.SessionCart);
             }
             return sessionList;
+        }
+
+        public bool UpdateQuantity(int id, int quantity)
+        {
+            List<OrderDetailVM> sessionList = new List<OrderDetailVM>();
+            sessionList = _session.GetObject<List<OrderDetailVM>>(SD.SessionCart);
+            OrderDetailVM orderDetailObj = sessionList.FirstOrDefault(x => x.FoodItemId == id);
+            if (sessionList.Contains(orderDetailObj))
+            {
+                sessionList.Remove(orderDetailObj);
+                orderDetailObj.Quantity = quantity;
+                sessionList.Add(orderDetailObj);
+                _session.SetObject(SD.SessionCart, sessionList);
+                return true;
+            }
+            return false;
+        }
+
+        public bool Delete(int id)
+        {
+            List<OrderDetailVM> sessionList = new List<OrderDetailVM>();
+            sessionList = _session.GetObject<List<OrderDetailVM>>(SD.SessionCart);
+            OrderDetailVM orderDetailObj = sessionList.FirstOrDefault(x => x.FoodItemId == id);
+            if (sessionList.Contains(orderDetailObj))
+            {
+                sessionList.Remove(orderDetailObj);
+                _session.SetObject(SD.SessionCart, sessionList);
+                return true;
+            }
+            return false;
         }
     }
 
