@@ -1,4 +1,5 @@
 ﻿using FoodOrderAPI.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +7,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = SD.Admin)]
+    [Authorize(Roles = SD.Admin)]
     public class CategoryController : ControllerBase
     {
         private readonly ApplicationDBContext _db;

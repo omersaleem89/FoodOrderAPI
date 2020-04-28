@@ -17,7 +17,8 @@ namespace FoodOrderAPI.Areas.Account.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult RegisterUser([FromForm]User user) {
+        public IActionResult RegisterUser(User user) 
+        {
             if (ModelState.IsValid)
             {
                 return new JsonResult(new RegisterViewModel(_db).RegisterUser(user));
