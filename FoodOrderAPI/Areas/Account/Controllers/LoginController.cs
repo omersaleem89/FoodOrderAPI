@@ -19,7 +19,7 @@ namespace FoodOrderAPI.Areas.Account.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult LoginUser([FromForm]LoginVM login)
+        public IActionResult LoginUser(LoginVM login)
         {
             if (ModelState.IsValid)
             {
@@ -36,12 +36,7 @@ namespace FoodOrderAPI.Areas.Account.Controllers
             }
             else
             {
-                return new JsonResult(new DbResponse()
-                {
-                    Result = false,
-                    ExceptionMessage = "Login Failed",
-                    DataResult = null
-                });
+                return ValidationProblem();
             }
         }
     }

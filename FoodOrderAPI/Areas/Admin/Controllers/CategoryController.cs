@@ -7,7 +7,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = SD.Admin)]
+    //[Authorize(Roles = SD.Admin)]
     public class CategoryController : ControllerBase
     {
         private readonly ApplicationDBContext _db;
