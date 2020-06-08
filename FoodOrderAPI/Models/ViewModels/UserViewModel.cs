@@ -19,7 +19,7 @@ namespace FoodOrderAPI.Models.ViewModels
 
         public IEnumerable<User> GetAll()
         {
-            var res = _db.User.ToList();
+            var res = _db.User.Where(x => x.Role != "Admin").ToList();
             return res;
         }
 

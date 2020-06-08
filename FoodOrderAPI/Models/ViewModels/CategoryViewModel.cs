@@ -91,7 +91,7 @@ namespace FoodOrderAPI.Models.ViewModels
                 var category = _db.Category.FirstOrDefault(x => x.Id == categoryUpsert.id);
                 if (category != null)
                 {
-                    if(!String.IsNullOrEmpty(categoryUpsert.name))
+                    if(!string.IsNullOrEmpty(categoryUpsert.name))
                         category.Name = categoryUpsert.name;
                     if (!(categoryUpsert.imageFile == null
                            || categoryUpsert.imageFileThumb == null))
@@ -110,7 +110,7 @@ namespace FoodOrderAPI.Models.ViewModels
                                     ExceptionMessage = "File does not Exists"
                                 };
                             }
-                            category.Image = ImageHelper.UploadImageFile("wwwroot/images", categoryUpsert.imageFile);
+                            category.Image = ImageHelper. UploadImageFile("wwwroot/images", categoryUpsert.imageFile);
                             category.ImageThumb = ImageHelper.UploadImageFile("wwwroot/images/thumb", categoryUpsert.imageFileThumb);
                         }
 
