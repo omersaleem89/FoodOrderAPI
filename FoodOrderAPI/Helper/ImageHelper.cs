@@ -13,7 +13,7 @@ namespace FoodOrderAPI.Helper
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), path, fileToSave);
             using (var stream = new FileStream(pathToSave, FileMode.Create))
             {
-                file.CopyToAsync(stream);
+                file.CopyTo(stream);
             }
             return path.Replace("wwwroot","") + "/" + fileToSave;
         }

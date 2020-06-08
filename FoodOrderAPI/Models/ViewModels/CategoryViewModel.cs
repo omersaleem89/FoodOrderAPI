@@ -36,14 +36,14 @@ namespace FoodOrderAPI.Models.ViewModels
             string[] permittedExtensions = { ".jpg", ".jpeg", ".png", ".gif" };
             try
             {
-                if (_db.Category.FirstOrDefault(x => x.Name == categoryUpsert.name) == null)
+                if (_db.Category.FirstOrDefault(x => x.Name == categoryUpsert.Name) == null)
                 {
-                    var ext1 = Path.GetExtension(categoryUpsert.imageFile.FileName);
-                    var ext2 = Path.GetExtension(categoryUpsert.imageFileThumb.FileName);
-                    if ((categoryUpsert.imageFile == null 
-                        || categoryUpsert.imageFileThumb == null) 
-                        || (categoryUpsert.imageFile.Length == 0 
-                        || categoryUpsert.imageFileThumb.Length==0)
+                    var ext1 = Path.GetExtension(categoryUpsert.ImageFile.FileName);
+                    var ext2 = Path.GetExtension(categoryUpsert.ImageFileThumb.FileName);
+                    if ((categoryUpsert.ImageFile == null 
+                        || categoryUpsert.ImageFileThumb == null) 
+                        || (categoryUpsert.ImageFile.Length == 0 
+                        || categoryUpsert.ImageFileThumb.Length==0)
                         || !permittedExtensions.Contains(ext1)
                         || !permittedExtensions.Contains(ext2))
                         return new DbResponse()
@@ -52,9 +52,9 @@ namespace FoodOrderAPI.Models.ViewModels
                             ExceptionMessage = "Select Image"
                         };
                     _db.Category.Add(new Category() { 
-                        Name= categoryUpsert.name,
-                        Image= ImageHelper.UploadImageFile("wwwroot/images", categoryUpsert.imageFile),
-                        ImageThumb = ImageHelper.UploadImageFile("wwwroot/images/thumb", categoryUpsert.imageFileThumb)
+                        Name= categoryUpsert.Name,
+                        Image= ImageHelper.UploadImageFile("wwwroot/images", categoryUpsert.ImageFile),
+                        ImageThumb = ImageHelper.UploadImageFile("wwwroot/images/thumb", categoryUpsert.ImageFileThumb)
                     });
                     _db.SaveChanges();
                     return new DbResponse()
@@ -88,16 +88,16 @@ namespace FoodOrderAPI.Models.ViewModels
             string[] permittedExtensions = { ".jpg", ".jpeg", ".png", ".gif" };
             try
             {
-                var category = _db.Category.FirstOrDefault(x => x.Id == categoryUpsert.id);
+                var category = _db.Category.FirstOrDefault(x => x.Id == categoryUpsert.Id);
                 if (category != null)
                 {
-                    if(!string.IsNullOrEmpty(categoryUpsert.name))
-                        category.Name = categoryUpsert.name;
-                    if (!(categoryUpsert.imageFile == null
-                           || categoryUpsert.imageFileThumb == null))
+                    if(!string.IsNullOrEmpty(categoryUpsert.Name))
+                        category.Name = categoryUpsert.Name;
+                    if (!(categoryUpsert.ImageFile == null
+                           || categoryUpsert.ImageFileThumb == null))
                     {
-                        var ext1 = Path.GetExtension(categoryUpsert.imageFile.FileName);
-                        var ext2 = Path.GetExtension(categoryUpsert.imageFileThumb.FileName);
+                        var ext1 = Path.GetExtension(categoryUpsert.ImageFile.FileName);
+                        var ext2 = Path.GetExtension(categoryUpsert.ImageFileThumb.FileName);
                         if (permittedExtensions.Contains(ext1)
                            && permittedExtensions.Contains(ext2))
                         {
@@ -110,8 +110,8 @@ namespace FoodOrderAPI.Models.ViewModels
                                     ExceptionMessage = "File does not Exists"
                                 };
                             }
-                            category.Image = ImageHelper. UploadImageFile("wwwroot/images", categoryUpsert.imageFile);
-                            category.ImageThumb = ImageHelper.UploadImageFile("wwwroot/images/thumb", categoryUpsert.imageFileThumb);
+                            category.Image = ImageHelper. UploadImageFile("wwwroot/images", categoryUpsert.ImageFile);
+                            category.ImageThumb = ImageHelper.UploadImageFile("wwwroot/images/thumb", categoryUpsert.ImageFileThumb);
                         }
 
                     }
@@ -194,9 +194,9 @@ namespace FoodOrderAPI.Models.ViewModels
     }
 
     public class CategoryUpsert {
-        public int id { get; set; }
-        public string name { get; set; }
-        public IFormFile imageFile { get; set; }
-        public IFormFile imageFileThumb { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public IFormFile ImageFile { get; set; }
+        public IFormFile ImageFileThumb { get; set; }
     }
 }
