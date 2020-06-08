@@ -36,7 +36,7 @@ namespace FoodOrderAPI.Areas.Account.Controllers
             }
             else
             {
-                return NotFound();
+                return ValidationProblem();
             }
         }
     }
