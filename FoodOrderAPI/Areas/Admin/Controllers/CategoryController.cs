@@ -21,7 +21,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-           return new JsonResult(new CategoryViewModel(_db,_hostEnvironment).GetAll());
+            return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).GetAll());
         }
 
         [HttpGet("{id}")]
@@ -35,14 +35,14 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
         {
             return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Insert(categoryUpsert));
         }
-        
+
         [HttpPut]
         public IActionResult Update([FromForm] CategoryUpsert categoryUpsert)
         {
             return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Update(categoryUpsert));
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Delete(id));
