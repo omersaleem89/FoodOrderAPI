@@ -29,15 +29,14 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
             return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).GetAll());
         }
 
-        // GET: api/FoodItem/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("Get/{id}", Name = "Get")]
         public IActionResult Get(int id)
         {
             return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).Get(id));
         }
 
         // GET: api/FoodItem/5
-        [HttpGet("{id}", Name = "GetCategoryItems")]
+        [HttpGet("GetCategoryItems/{id}", Name = "GetCategoryItems")]
         public IActionResult GetCategoryItems(int id)
         {
             return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).GetCategoryItems(id));
