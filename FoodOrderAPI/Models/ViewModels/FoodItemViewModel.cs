@@ -175,15 +175,9 @@ namespace FoodOrderAPI.Models.ViewModels
                         foodItem.ImageThumb != null || foodItem.ImageThumb != ""
                         )
                     {
-                        if (!(ImageHelper.DeleteImage(_hostEnvironment, @"images", foodItem.Image.Replace("/images/", "")))
-                            || !(ImageHelper.DeleteImage(_hostEnvironment, @"images\thumb", foodItem.ImageThumb.Replace("/images/thumb/", ""))))
-                        {
-                            return new DbResponse()
-                            {
-                                Result = false,
-                                ExceptionMessage = "File does not Exists"
-                            };
-                        }
+                        ImageHelper.DeleteImage(_hostEnvironment, @"images", foodItem.Image.Replace("/images/", ""));
+                        ImageHelper.DeleteImage(_hostEnvironment, @"images\thumb", foodItem.ImageThumb.Replace("/images/thumb/", ""));
+                        
 
                     }
                     _db.Entry(foodItem).State = EntityState.Deleted;
