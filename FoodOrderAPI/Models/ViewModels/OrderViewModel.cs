@@ -18,10 +18,25 @@ namespace FoodOrderAPI.Models.ViewModels
             _db = db;
         }
 
-        public IEnumerable<Order> GetAll()
+        public List<dynamic> GetAll()
         {
             var res = _db.Order.ToList();
-            return res;
+
+            var list = new List<dynamic>();
+            foreach (Order o in res)
+            {
+                list.Add(new
+                {
+                    o.Id,
+                    o.Status,
+                    o.TransId,
+                    o.TotalPrice,
+                    o.UserId,
+                    o.CreationDate,
+                    Email = _db.User.FirstOrDefault(x => x.Id == o.UserId).Email
+                });
+            }
+            return list;
         }
 
         public IEnumerable<Order> GetUserOrder(int userId)

@@ -38,8 +38,8 @@ namespace FoodOrderAPI.Models.ViewModels
             {
                 if (_db.Category.FirstOrDefault(x => x.Name == categoryUpsert.Name) == null)
                 {
-                    var ext1 = Path.GetExtension(categoryUpsert.ImageFile.FileName);
-                    var ext2 = Path.GetExtension(categoryUpsert.ImageFileThumb.FileName);
+                    var ext1 = Path.GetExtension(categoryUpsert.ImageFile.FileName).ToLower();
+                    var ext2 = Path.GetExtension(categoryUpsert.ImageFileThumb.FileName).ToLower();
                     if ((categoryUpsert.ImageFile == null 
                         || categoryUpsert.ImageFileThumb == null) 
                         || (categoryUpsert.ImageFile.Length == 0 

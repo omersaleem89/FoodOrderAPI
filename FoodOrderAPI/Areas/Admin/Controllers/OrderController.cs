@@ -40,7 +40,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
 
         // PUT: api/Order/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromForm] OrderUpsert orderUpsert)
+        public IActionResult Put(int id,[FromForm] OrderUpsert orderUpsert)
         {
             return new JsonResult(new OrderViewModel(_db).Update(id,orderUpsert));
         }
