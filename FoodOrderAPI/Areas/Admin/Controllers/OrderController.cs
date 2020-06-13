@@ -20,7 +20,14 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
         }
 
         // GET: api/Order/5
-        [HttpGet("{userid}", Name = "GetUserOrder")]
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            return new JsonResult(new OrderViewModel(_db).Get(id));
+        }
+
+        [HttpGet("GetUserOrder/{userid}", Name = "GetUserOrder")]
         public IActionResult GetUserOrder(int userId)
         {
             return new JsonResult(new OrderViewModel(_db).GetUserOrder(userId));

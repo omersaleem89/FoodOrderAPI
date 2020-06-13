@@ -21,24 +21,35 @@ namespace FoodOrderAPI.Models.ViewModels
         public List<dynamic> GetAll()
         {
             var res = _db.Order.ToList();
-
-            var list = new List<dynamic>();
-            foreach (Order o in res)
-            {
+            List<dynamic> list = new List<dynamic>();
+            foreach (Order o in res){
                 list.Add(new
                 {
                     o.Id,
-                    o.Status,
-                    o.TransId,
-                    o.TotalPrice,
-                    o.UserId,
                     o.CreationDate,
+                    o.Status,
+                    o.TotalPrice,
+                    o.TransId,
+                    o.UserId,
                     Email = _db.User.FirstOrDefault(x => x.Id == o.UserId).Email
-                });
+                }); ;
             }
             return list;
         }
-
+        public dynamic Get(int id)
+        {
+            var o = _db.Order.FirstOrDefault(x => x.Id == id);
+            return new
+            {
+                o.Id,
+                o.CreationDate,
+                o.Status,
+                o.TotalPrice,
+                o.TransId,
+                o.UserId,
+                Email = _db.User.FirstOrDefault(x => x.Id == o.UserId).Email
+            }; 
+        }
         public IEnumerable<Order> GetUserOrder(int userId)
         {
             var res = _db.Order.Where(x => x.UserId == userId).ToList();
