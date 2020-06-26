@@ -1,10 +1,12 @@
 ﻿using FoodOrderAPI.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodOrderAPI.Areas.Admin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly ApplicationDBContext _db;
@@ -14,6 +16,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
         }
         // GET: api/Order
         [HttpGet]
+        [Authorize(Roles = SD.Admin)]
         public IActionResult GetAll()
         {
             return new JsonResult(new OrderViewModel(_db).GetAll());
@@ -40,6 +43,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
 
         // POST: api/Order
         [HttpPost]
+        [Authorize(Roles = SD.Admin)]
         public IActionResult Post([FromForm] OrderUpsert orderUpsert)
         {
             return new JsonResult(new OrderViewModel(_db).Insert(orderUpsert));
@@ -47,6 +51,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
 
         // PUT: api/Order/5
         [HttpPut("{id}")]
+        [Authorize(Roles = SD.Admin)]
         public IActionResult Put(int id,[FromForm] OrderUpsert orderUpsert)
         {
             return new JsonResult(new OrderViewModel(_db).Update(id,orderUpsert));

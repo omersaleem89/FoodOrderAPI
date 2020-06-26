@@ -58,9 +58,9 @@ namespace FoodOrderAPI
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("https://localhost:4200")
+                    builder.WithOrigins("http://localhost:4200")
                                 .AllowAnyHeader()
-                                .AllowAnyMethod(); ;
+                                .AllowAnyMethod();
                 });
             });
         }
@@ -75,11 +75,11 @@ namespace FoodOrderAPI
 
             app.UseHttpsRedirection();
             app.UseSession();
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles();
-            app.UseCors(MyAllowSpecificOrigins);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

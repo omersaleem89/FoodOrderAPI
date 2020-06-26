@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FoodOrderAPI.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   // [Authorize]
     public class FoodItemController : ControllerBase
     {
 
@@ -44,6 +46,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
 
         // POST: api/FoodItem
         [HttpPost]
+        [Authorize(Roles = SD.Admin)]
         public IActionResult Post([FromForm] FoodItemUpsert foodItem)
         {
             if (ModelState.IsValid)
@@ -61,6 +64,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
         }
 
         // PUT: api/FoodItem/5
+        [Authorize(Roles = SD.Admin)]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromForm] FoodItemUpsert foodItem)
         {
@@ -79,6 +83,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
 
         // DELETE: api/FoodItem/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = SD.Admin)]
         public IActionResult Delete(int id)
         {
             return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).Delete(id));

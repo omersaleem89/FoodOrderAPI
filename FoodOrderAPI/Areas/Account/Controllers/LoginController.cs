@@ -7,6 +7,7 @@ namespace FoodOrderAPI.Areas.Account.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class LoginController : ControllerBase
     {
         private readonly ApplicationDBContext _db;
@@ -17,7 +18,7 @@ namespace FoodOrderAPI.Areas.Account.Controllers
             _config = config;
         }
 
-        [AllowAnonymous]
+
         [HttpPost]
         public IActionResult LoginUser(LoginVM login)
         {

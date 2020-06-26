@@ -7,6 +7,7 @@ namespace FoodOrderAPI.Areas.Account.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class RegisterController : ControllerBase
     {
         private readonly ApplicationDBContext _db;
@@ -15,7 +16,6 @@ namespace FoodOrderAPI.Areas.Account.Controllers
             _db = db;
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public IActionResult RegisterUser(User user) 
         {

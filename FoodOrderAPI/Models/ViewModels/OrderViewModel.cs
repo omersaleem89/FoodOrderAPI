@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using FoodOrderAPI.Helper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -56,10 +57,33 @@ namespace FoodOrderAPI.Models.ViewModels
             return res;
         }
 
-        public IEnumerable<OrderDetail> GetOrderDetails(int id)
+        public List<dynamic> GetOrderDetails(int id)
         {
-            var res = _db.OrderDetail.Where(x => x.OrderId == id).ToList();
-            return res;
+            List<dynamic> list = new List<dynamic>();
+            var data = _db.OrderDetail.Where(x => x.OrderId == id).Join(// outer sequence 
+                      _db.FoodItem,  // inner sequence 
+                      od => od.FoodItemId,    // outerKeySelector
+                      f => f.Id,  // innerKeySelector
+                      (od, f) => new // result selector
+                      {
+                          od.Id,
+                          od.Quantity,
+                          od.OrderId,
+                          f.Name,
+                          f.Image,
+                          f.Price
+                      }).ToList();
+            foreach (dynamic d in data) {
+                list.Add(new {
+                    d.Id,
+                    d.Quantity,
+                    d.OrderId,
+                    d.Name,
+                    d.Image,
+                    d.Price
+                });
+            }
+            return list;
         }
 
         public DbResponse Insert(OrderUpsert orderUpsert)
