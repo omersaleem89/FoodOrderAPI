@@ -21,16 +21,11 @@ namespace FoodOrderAPI.Areas.Account.Controllers
         {
             if (ModelState.IsValid)
             {
-                return new JsonResult(new RegisterViewModel(_db).RegisterUser(user));
+                return Ok(new RegisterViewModel(_db).RegisterUser(user));
             }
             else 
             {
-                return new JsonResult(new DbResponse()
-                {
-                    Result = false,
-                    ExceptionMessage = "Registration Failed",
-                    DataResult = null
-                });
+                return ValidationProblem();
             }
         }
     }

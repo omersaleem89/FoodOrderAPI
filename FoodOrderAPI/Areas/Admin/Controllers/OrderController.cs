@@ -43,8 +43,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
 
         // POST: api/Order
         [HttpPost]
-        [Authorize(Roles = SD.Admin)]
-        public IActionResult Post([FromForm] OrderUpsert orderUpsert)
+        public IActionResult Post([FromBody] OrderUpsert orderUpsert)
         {
             return new JsonResult(new OrderViewModel(_db).Insert(orderUpsert));
         }

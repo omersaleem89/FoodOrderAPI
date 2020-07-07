@@ -51,10 +51,24 @@ namespace FoodOrderAPI.Models.ViewModels
                 Email = _db.User.FirstOrDefault(x => x.Id == o.UserId).Email
             }; 
         }
-        public IEnumerable<Order> GetUserOrder(int userId)
+        public List<dynamic> GetUserOrder(int userId)
         {
             var res = _db.Order.Where(x => x.UserId == userId).ToList();
-            return res;
+            List<dynamic> list = new List<dynamic>();
+            foreach (Order o in res)
+            {
+                list.Add(new
+                {
+                    o.Id,
+                    o.CreationDate,
+                    o.Status,
+                    o.TotalPrice,
+                    o.TransId,
+                    o.UserId,
+                    Email = _db.User.FirstOrDefault(x => x.Id == o.UserId).Email
+                }); ;
+            }
+            return list;
         }
 
         public List<dynamic> GetOrderDetails(int id)
@@ -168,8 +182,6 @@ namespace FoodOrderAPI.Models.ViewModels
 
     public class OrderUpsert
     {
-        //[Required]
-        public DateTime CreationDate { get; set; }
         //[Required]
         public bool Status { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value greater than {1}")]

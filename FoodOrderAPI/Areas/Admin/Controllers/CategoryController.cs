@@ -21,31 +21,32 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).GetAll());
+            return Ok(new CategoryViewModel(_db, _hostEnvironment).GetAll());
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Get(id));
+            return Ok(new CategoryViewModel(_db, _hostEnvironment).Get(id));
         }
 
         [HttpPost]
+        [DisableRequestSizeLimit]
         public IActionResult Insert([FromForm] CategoryUpsert categoryUpsert)
         {
-            return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Insert(categoryUpsert));
+            return CreatedAtAction("PostCategory",new CategoryViewModel(_db, _hostEnvironment).Insert(categoryUpsert));
         }
 
         [HttpPut]
         public IActionResult Update([FromForm] CategoryUpsert categoryUpsert)
         {
-            return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Update(categoryUpsert));
+            return Ok(new CategoryViewModel(_db, _hostEnvironment).Update(categoryUpsert));
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return new JsonResult(new CategoryViewModel(_db, _hostEnvironment).Delete(id));
+            return Ok(new CategoryViewModel(_db, _hostEnvironment).Delete(id));
         }
     }
 }

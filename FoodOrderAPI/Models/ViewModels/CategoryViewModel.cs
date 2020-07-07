@@ -33,7 +33,7 @@ namespace FoodOrderAPI.Models.ViewModels
 
         public DbResponse Insert(CategoryUpsert categoryUpsert)
         {
-            string[] permittedExtensions = { ".jpg", ".jpeg", ".png", ".gif" };
+            string[] permittedExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".mp4" };
             try
             {
                 if (_db.Category.FirstOrDefault(x => x.Name == categoryUpsert.Name) == null)

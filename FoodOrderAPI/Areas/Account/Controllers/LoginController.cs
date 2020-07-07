@@ -30,10 +30,10 @@ namespace FoodOrderAPI.Areas.Account.Controllers
                 if (user != null)
                 {
                     var tokenString = new JWTHandler(_config).GenerateJSONWebToken(user);
-                    response = Ok(new { token = tokenString });
+                    return Ok(new { token = tokenString });
                 }
 
-                return response;
+                return NotFound();
             }
             else
             {

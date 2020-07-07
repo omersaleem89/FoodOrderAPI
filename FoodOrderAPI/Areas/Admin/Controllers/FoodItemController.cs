@@ -28,20 +28,20 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).GetAll());
+            return Ok(new FoodItemViewModel(_db, _hostEnvironment).GetAll());
         }
 
         [HttpGet("Get/{id}", Name = "Get")]
         public IActionResult Get(int id)
         {
-            return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).Get(id));
+            return Ok(new FoodItemViewModel(_db, _hostEnvironment).Get(id));
         }
 
         // GET: api/FoodItem/5
         [HttpGet("GetCategoryItems/{id}", Name = "GetCategoryItems")]
         public IActionResult GetCategoryItems(int id)
         {
-            return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).GetCategoryItems(id));
+            return Ok(new FoodItemViewModel(_db, _hostEnvironment).GetCategoryItems(id));
         }
 
         // POST: api/FoodItem
@@ -51,16 +51,9 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).Insert(foodItem));
+                return CreatedAtAction("PostFoodItem",new FoodItemViewModel(_db, _hostEnvironment).Insert(foodItem));
             }
-            else
-            {
-                return new JsonResult(new DbResponse()
-                {
-                    Result = false,
-                    ExceptionMessage = "All fields required"
-                });
-            }
+            return ValidationProblem();
         }
 
         // PUT: api/FoodItem/5
@@ -70,15 +63,9 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).Update(id, foodItem));
+                return Ok(new FoodItemViewModel(_db, _hostEnvironment).Update(id, foodItem));
             }
-            else {
-                return new JsonResult(new DbResponse()
-                {
-                    Result = false,
-                    ExceptionMessage = "All fields required"
-                });
-            }
+            return ValidationProblem();
         }
 
         // DELETE: api/FoodItem/5
@@ -86,7 +73,7 @@ namespace FoodOrderAPI.Areas.Admin.Controllers
         [Authorize(Roles = SD.Admin)]
         public IActionResult Delete(int id)
         {
-            return new JsonResult(new FoodItemViewModel(_db, _hostEnvironment).Delete(id));
+            return Ok(new FoodItemViewModel(_db, _hostEnvironment).Delete(id));
         }
     }
 }
